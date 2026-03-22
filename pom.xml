@@ -1,0 +1,71 @@
+package it.lumapvp.lobby.commands;
+
+import it.lumapvp.lobby.LumaPvPLobby;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class FlySpeedCommand implements CommandExecutor {
+
+    private final LumaPvPLobby plugin;
+    private final String prefix;
+
+    public FlySpeedCommand(LumaPvPLobby plugin) {
+        this.plugin = plugin;
+        this.prefix = ChatColor.translateAlternateColorCodes('&', "&5[LumaPvP] &f");
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+        if (!sender.hasPermission("lumapvp.staff")) {
+            sender.sendMessage(prefix + ChatColor.RED + "No permission.");
+            return true;
+        }
+
+        if (args.length == 0 || args.length > 2) {
+            sender.sendMessage(prefix + "Usage: /flyspeed <1-10> [player]");
+            return true;
+        }
+
+        int speed;
+        try {
+            speed = Integer.parseInt(args[0]);
+        } catch (NumberFormatException e) {
+            sender.sendMessage(prefix + ChatColor.RED + "Invalid number: " + args[0]);
+            return true;
+        }
+
+        if (speed < 1 || speed > 10) {
+            sender.sendMessage(prefix + ChatColor.RED + "Speed must be between 1 and 10.");
+            return true;
+        }
+
+        Player target;
+        if (args.length == 2) {
+            target = Bukkit.getPlayer(args[1]);
+            if (target == null) {
+                sender.sendMessage(prefix + ChatColor.RED + "Player not found: " + args[1]);
+                return true;
+            }
+        } else {
+            if (!(sender instanceof Player)) {
+                sender.sendMessage(prefix + "Usage: /flyspeed <1-10> [player]");
+                return true;
+            }
+            target = (Player) sender;
+        }
+
+        float flySpeed = speed / 10.0f;
+        target.setFlySpeed(flySpeed);
+        target.setAllowFlight(true);
+
+        target.sendMessage(prefix + ChatColor.GREEN + "Fly speed set to " + ChatColor.LIGHT_PURPLE + speed + ChatColor.GREEN + "!");
+        if (!sender.getName().equals(target.getName()))
+            sender.sendMessage(prefix + ChatColor.GREEN + "Set " + ChatColor.LIGHT_PURPLE + target.getName() + ChatColor.GREEN + "'s fly speed to " + ChatColor.LIGHT_PURPLE + speed + ChatColor.GREEN + "!");
+
+        return true;
+    }
+}
