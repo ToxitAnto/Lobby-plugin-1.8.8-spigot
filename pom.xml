@@ -1,71 +1,67 @@
-package it.lumapvp.lobby.commands;
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-import it.lumapvp.lobby.LumaPvPLobby;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
+    <groupId>it.lumapvp</groupId>
+    <artifactId>LumaPvPLobby</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
 
-public class FlySpeedCommand implements CommandExecutor {
+    <name>LumaPvPLobby</name>
+    <description>Plugin Lobby per LumaPvP - 1.8.8</description>
 
-    private final LumaPvPLobby plugin;
-    private final String prefix;
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-    public FlySpeedCommand(LumaPvPLobby plugin) {
-        this.plugin = plugin;
-        this.prefix = ChatColor.translateAlternateColorCodes('&', "&5[LumaPvP] &f");
-    }
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!sender.hasPermission("lumapvp.staff")) {
-            sender.sendMessage(prefix + ChatColor.RED + "No permission.");
-            return true;
-        }
+    <dependencies>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
-        if (args.length == 0 || args.length > 2) {
-            sender.sendMessage(prefix + "Usage: /flyspeed <1-10> [player]");
-            return true;
-        }
-
-        int speed;
-        try {
-            speed = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            sender.sendMessage(prefix + ChatColor.RED + "Invalid number: " + args[0]);
-            return true;
-        }
-
-        if (speed < 1 || speed > 10) {
-            sender.sendMessage(prefix + ChatColor.RED + "Speed must be between 1 and 10.");
-            return true;
-        }
-
-        Player target;
-        if (args.length == 2) {
-            target = Bukkit.getPlayer(args[1]);
-            if (target == null) {
-                sender.sendMessage(prefix + ChatColor.RED + "Player not found: " + args[1]);
-                return true;
-            }
-        } else {
-            if (!(sender instanceof Player)) {
-                sender.sendMessage(prefix + "Usage: /flyspeed <1-10> [player]");
-                return true;
-            }
-            target = (Player) sender;
-        }
-
-        float flySpeed = speed / 10.0f;
-        target.setFlySpeed(flySpeed);
-        target.setAllowFlight(true);
-
-        target.sendMessage(prefix + ChatColor.GREEN + "Fly speed set to " + ChatColor.LIGHT_PURPLE + speed + ChatColor.GREEN + "!");
-        if (!sender.getName().equals(target.getName()))
-            sender.sendMessage(prefix + ChatColor.GREEN + "Set " + ChatColor.LIGHT_PURPLE + target.getName() + ChatColor.GREEN + "'s fly speed to " + ChatColor.LIGHT_PURPLE + speed + ChatColor.GREEN + "!");
-
-        return true;
-    }
-}
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
