@@ -1,0 +1,88 @@
+join-message:
+  enabled: true
+  format: "&a[+] {rank} &f{player}"
+
+quit-message:
+  enabled: true
+  format: "&c[-] {rank} &f{player}"
+
+lobby: {}
+parkour: {}
+
+world:
+  always-day: true
+  no-rain: true
+  lock-time: 6000
+
+blocks:
+  disappear-delay: 5
+  amount: 64
+
+hotbar:
+  parkour-slot: 1
+  visibilita-slot: 2
+  selettore-blocco-slot: 8
+  selettore-slot: 4
+  profilo-slot: 6
+  impostazioni-slot: 7
+
+inventory-protection:
+  enabled: true
+  no-drop: true
+
+scoreboard:
+  enabled: true
+  title: "&5&lLumaPvP"
+  update-interval: 20
+  lines:
+    - ""
+    - "&fNick: &d{player}"
+    - "&fRank: &d{rank}"
+    - ""
+    - "&fOnline: &d{online}"
+    - ""
+    - "&play.lumapvp.eu"
+
+ranks:
+  default: ""
+  vip: "&a[VIP]"
+  mvp: "&6[MVP]"
+  staff: "&b[Staff]"
+  admin: "&c[Admin]"
+
+selector:
+  title: "&5&lLumaPvP &7- &fSelector"
+  bedwars:
+    name: "&e&lBedWars"
+    server: "bedwars"
+    lore:
+      - ""
+      - "&7Destroy your enemies' bed!"
+      - ""
+      - "&eClick to join!"
+  support:
+    name: "&c&lSupport"
+    lore:
+      - ""
+      - "&7Open a ticket on Discord"
+      - "&fdiscord.lumapvp.eu"
+      - ""
+
+profile:
+  title: "&5&lLumaPvP &7- &fProfile"
+
+settings:
+  title: "&5&lLumaPvP &7- &fSettings"
+
+block-selector:
+  title: "&5&lSelect a block"
+  blocks:
+    - QUARTZ_BLOCK
+    - WOOL
+    - STAINED_CLAY
+    - OBSIDIAN
+    - SANDSTONE
+
+no-death:
+  enabled: true
+  teleport-to-lobby: true
