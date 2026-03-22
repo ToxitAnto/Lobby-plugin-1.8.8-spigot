@@ -3,7 +3,7 @@ main: it.lumapvp.lobby.LumaPvPLobby
 version: 1.0.0
 api-version: 1.8
 description: Plugin Lobby ufficiale di LumaPvP
-author: LumaPvP Staff
+author: Ck_Ant0
 
 commands:
   lumapvpadmin:
